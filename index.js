@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
+
+const userRoutes = require("./routes/user");
 const taskRoutes = require("./routes/task");
+
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -20,6 +23,7 @@ app.use(
     })
 );
 
+app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/task", taskRoutes);
 
 app.get("/", (req, res) => {
