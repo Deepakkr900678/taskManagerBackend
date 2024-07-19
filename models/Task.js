@@ -11,6 +11,11 @@ const taskSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    status:{
+      type: String,
+      enum: ['TODO', 'IN_PROGRESS', 'DONE'], // Optional: restrict to these values
+      default: 'TODO',
+    },
     date: {
       type: String,
       default: function () {
