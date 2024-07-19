@@ -1,8 +1,7 @@
-
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-const cookieSession = require("cookie-session");
+const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -16,16 +15,17 @@ const database = require("./config/database");
 
 database.connect();
 
-require("./passport"); 
+require("./passport");
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(
-    cookieSession({
-        name: "session",
-        keys: ["cyberwolve"],
-        maxAge: 24 * 60 * 60 * 1000,
+    session({
+        secret: "cyberwolve",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { maxAge: 24 * 60 * 60 * 1000 },
     })
 );
 
@@ -35,7 +35,7 @@ app.use(passport.session());
 app.use(
     cors({
         origin: "http://localhost:3000",
-        methods: "GET,POST,PUT,DELETE",
+        methods: "GET,POST,PATCH,DELETE",
         credentials: true,
     })
 );
@@ -55,3 +55,5 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`App is listening at ${PORT}`);
 });
+
+
